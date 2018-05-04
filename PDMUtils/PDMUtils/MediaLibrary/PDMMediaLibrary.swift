@@ -1,6 +1,6 @@
 //
 //  PDMMediaLibrary.swift
-//  PDMUtils_iOS
+//  PDMUtils
 //
 //  Created by Pedro L. Diaz Montilla on 12/2/18.
 //  Copyright © 2018 Pedro L. Diaz Montilla. All rights reserved.

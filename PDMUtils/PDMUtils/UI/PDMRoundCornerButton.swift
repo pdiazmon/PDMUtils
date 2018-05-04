@@ -1,6 +1,6 @@
 //
 //  PDMRoundCornerButton.swift
-//  PDMUtils_iOS
+//  PDMUtils
 //
 //  Created by Pedro L. Diaz Montilla on 13/4/18.
 //  Copyright © 2018 Pedro L. Diaz Montilla. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class PDMRoundCornerButton: UIButton {
+@IBDesignable public class PDMRoundCornerButton: UIButton {
 
     @IBInspectable var pdmBorderColor: UIColor = UIColor.clear {
         didSet {

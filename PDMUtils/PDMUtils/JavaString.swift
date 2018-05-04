@@ -1,6 +1,6 @@
 //
 //  StringJava.swift
-//  PDMUtils_iOS
+//  PDMUtils
 //
 //  Created by Pedro L. Diaz Montilla on 17/1/18.
 //  Copyright © 2018 Pedro L. Diaz Montilla. All rights reserved.
@@ -39,9 +39,9 @@
 
 import Foundation
 
-extension String {
+public extension String {
 	
-	enum StringError: Error {
+	public enum StringError: Error {
 		case IndexOutOfBoundsError
 	}
 	
@@ -52,7 +52,7 @@ extension String {
 	/// - Returns: the char value at the specified index of this string. The first char value is at index 0.
 	/// - Parameter index: the index of the char value.
 	/// - Throws: IndexOutOfBoundsError - if the index argument is negative or not less than the length of this string.
-	func java_charAt(_ index: Int) throws -> Character {
+	public func java_charAt(_ index: Int) throws -> Character {
 		guard (index < self.count) else { throw StringError.IndexOutOfBoundsError }
 		guard (index >= 0)         else { throw StringError.IndexOutOfBoundsError }
 		
@@ -70,7 +70,7 @@ extension String {
 	///
 	/// - Returns: a string that represents the concatenation of this object's characters followed by the string argument's characters.
 	/// - Parameter str: the String that is concatenated to the end of this String.
-	func java_concat(_ str: String) -> String {
+	public func java_concat(_ str: String) -> String {
 		return self + str
 	}
 	
@@ -78,7 +78,7 @@ extension String {
 	///
 	/// - Returns: true if this String represents the same sequence of char values as the specified sequence, false otherwise
 	/// - Parameter s: The sequence to compare this String against
-	func java_contentEquals(_ s: String) -> Bool {
+	public func java_contentEquals(_ s: String) -> Bool {
 		return (self == s)
 	}
 
@@ -86,7 +86,7 @@ extension String {
 	///
 	/// - Returns: a String that contains the characters of the character array.
 	/// - Parameter data: the character array.
-	static func java_copyValueOf(_ data: [Character]) -> String {
+	static public func java_copyValueOf(_ data: [Character]) -> String {
 		var str: String = ""
 		
 		for c in data {
@@ -103,7 +103,7 @@ extension String {
 	/// - Parameter offset: initial offset of the subarray.
 	/// - Parameter count: length of the subarray.
 	/// - Throws: IndexOutOfBoundsError - if offset is negative, or count is negative, or offset+count is larger than data.length.
-	static func java_copyValueOf(data: [Character], offset: Int, count: Int) throws -> String {
+	static public func java_copyValueOf(data: [Character], offset: Int, count: Int) throws -> String {
 		guard (offset > 0)                   else { throw StringError.IndexOutOfBoundsError }
 		guard (count > 0)                    else { throw StringError.IndexOutOfBoundsError }
 		guard (count <= data.count)          else { throw StringError.IndexOutOfBoundsError }
@@ -117,7 +117,7 @@ extension String {
 	///
 	/// - Returns: true if the character sequence represented by the argument is a suffix of the character sequence represented by this object; false otherwise. Note that the result will be true if the argument is the empty string or is equal to this String object as determined by the equals(Object) method.
 	/// - Parameter suffix: the suffix.
-	func java_endsWith(_ suffix: String) -> Bool {
+	public func java_endsWith(_ suffix: String) -> Bool {
 		return self.hasSuffix(suffix)
 	}
 
@@ -125,7 +125,7 @@ extension String {
 	///
 	/// - Returns: true if the given object represents a String equivalent to this string, false otherwise
 	/// - Parameter anObject: The object to compare this String against
-	func java_equals(_ anObject: Any) -> Bool {
+	public func java_equals(_ anObject: Any) -> Bool {
 		guard (anObject is CustomStringConvertible) else { return false }
 		
 		return (self == (anObject as! CustomStringConvertible).description)
@@ -140,7 +140,7 @@ extension String {
 	///
 	/// - Returns: true if the argument is not null and it represents an equivalent String ignoring case; false otherwise
 	/// - Parameter anotherString: The String to compare this String against
-	func java_equalsIgnoreCase(_ anotherString: String) -> Bool {
+	public func java_equalsIgnoreCase(_ anotherString: String) -> Bool {
 		return (self.uppercased() == anotherString.uppercased())
 	}
 
@@ -155,7 +155,7 @@ extension String {
 	/// - Parameter dst: the destination array.
 	/// - Parameter dstBegin: the start offset in the destination array.
 	/// - Throws: IndexOutOfBoundsException - If any of the following is true: srcBegin is negative; srcBegin is greater than srcEnd; srcEnd is greater than the length of this string; dstBegin is negative; dstBegin+(srcEnd-srcBegin) is larger than dst.length
-	func java_getChars(srcBegin: Int, srcEnd: Int, dst: inout [Character], dstBegin: Int) throws {
+	public func java_getChars(srcBegin: Int, srcEnd: Int, dst: inout [Character], dstBegin: Int) throws {
 		guard (srcBegin >= 0)                           else { throw StringError.IndexOutOfBoundsError }
 		guard (srcBegin <= srcEnd)                      else { throw StringError.IndexOutOfBoundsError }
 		guard (srcEnd <= self.count)                    else { throw StringError.IndexOutOfBoundsError }
@@ -173,7 +173,7 @@ extension String {
 	/// Returns a hash code for this string.
 	///
 	/// - Returns: a hash code value for this object.
-	func java_hashCode() -> Int {
+	public func java_hashCode() -> Int {
 		return self.hashValue
 	}
 	
@@ -186,7 +186,7 @@ extension String {
 	///
 	/// - Returns: the index of the first occurrence of the character in the character sequence represented by this object, or nil if the character does not occur.
 	/// - Parameter ch: a character (Unicode code point).
-	func java_indexOf(ch: Character) -> Int? {
+	public func java_indexOf(ch: Character) -> Int? {
 		guard let index = self.index(of: ch) else { return nil }
 		
 		return self.distance(from: self.startIndex, to: index)
@@ -209,7 +209,7 @@ extension String {
 	/// - Returns: the index of the first occurrence of the character in the character sequence represented by this object that is greater than or equal to fromIndex, or -1 if the character does not occur.
 	/// - Parameter ch: a character (Unicode code point).
 	/// - Parameter fromIndex: the index to start the search from.
-	func java_indexOf(ch: Character, fromIndex: Int) -> Int? {
+	public func java_indexOf(ch: Character, fromIndex: Int) -> Int? {
 		guard (fromIndex < self.count) else { return nil }
 		
 		let wfromIndex: Int = (fromIndex < 0 ? 0 : fromIndex)
@@ -227,7 +227,7 @@ extension String {
 	///
 	/// - Returns: the index of the first occurrence of the specified substring, or nil if there is no such occurrence.
 	/// - Parameter str: the substring to search for.
-	func java_indexOf(str: String) -> Int? {
+	public func java_indexOf(str: String) -> Int? {
 		guard (str.count > 0) else { return nil }
 		
 		var i: Int = 0
@@ -253,7 +253,7 @@ extension String {
 	/// - Returns: the index of the first occurrence of the specified substring, starting at the specified index, or nil if there is no such occurrence.
 	/// - Parameter str: the substring to search for.
 	/// - Parameter fromIndex: the index from which to start the search.
-	func java_indexOf(str: String, fromIndex: Int) -> Int? {
+	public func java_indexOf(str: String, fromIndex: Int) -> Int? {
 		guard (fromIndex < self.count) else { return nil }
 		guard (fromIndex >= 0)         else { return nil }
 		guard (str.count > 0)          else { return nil }
@@ -277,7 +277,7 @@ extension String {
 	/// All literal strings and string-valued constant expressions are interned. String literals are defined in section 3.10.5 of the The Java™ Language Specification.
 	///
 	/// - Returns: a string that has the same contents as this string, but is guaranteed to be from a pool of unique strings.
-	func java_intern() -> String {
+	public func java_intern() -> String {
 		return self.description
 	}
 
@@ -291,7 +291,7 @@ extension String {
 	///
 	/// - Returns: the index of the last occurrence of the character in the character sequence represented by this object, or nil if the character does not occur.
 	/// - Parameter ch: a character (Unicode code point).
-	func java_lastIndexOf(ch: Character) -> Int? {
+	public func java_lastIndexOf(ch: Character) -> Int? {
 		return java_lastIndexOf(str: String(ch))
 	}
 
@@ -308,7 +308,7 @@ extension String {
 	/// - Returns: the index of the last occurrence of the character in the character sequence represented by this object that is less than or equal to fromIndex, or -1 if the character does not occur before that point.
 	/// - Parameter ch: a character (Unicode code point).
 	/// - Parameter fromIndex: the index to start the search from. There is no restriction on the value of fromIndex. If it is greater than or equal to the length of this string, it has the same effect as if it were equal to one less than the length of this string: this entire string may be searched. If it is negative, it has the same effect as if it were -1: nil is returned.
-	func java_lastIndexOf(ch: Character, fromIndex: Int) -> Int? {
+	public func java_lastIndexOf(ch: Character, fromIndex: Int) -> Int? {
 		guard (fromIndex >= 0)         else { return nil }
 		
 		let wfromIndex = (fromIndex >= self.count) ? self.count-1 : fromIndex
@@ -325,7 +325,7 @@ extension String {
 	///
 	/// - Returns: the index of the last occurrence of the specified substring, or nil if there is no such occurrence.
 	/// - Parameter str: the substring to search for.
-	func java_lastIndexOf(str: String) -> Int? {
+	public func java_lastIndexOf(str: String) -> Int? {
 		guard (str.count > 0) else { return nil }
 		
 		for i in stride(from: self.count - str.count, through:0, by: -1) {
@@ -347,7 +347,7 @@ extension String {
 	/// - Returns: the index of the last occurrence of the specified substring, searching backward from the specified index, or nil if there is no such occurrence.
 	/// - Parameter str: the substring to search for.
 	/// - Parameter fromIndex: the index to start the search from.
-	func java_lastIndexOf(str: String, fromIndex: Int) -> Int? {
+	public func java_lastIndexOf(str: String, fromIndex: Int) -> Int? {
 		guard (fromIndex >= 0)         else { return nil }
 		guard (fromIndex < self.count) else { return nil }
 		
@@ -358,7 +358,7 @@ extension String {
 	/// Returns the length of this string. The length is equal to the number of Unicode code units in the string.
 	///
 	/// - Returns: the length of the sequence of characters represented by this object.
-	func java_length() -> Int {
+	public func java_length() -> Int {
 		return self.count
 	}
 
@@ -384,7 +384,7 @@ extension String {
 	/// - Parameter other: the string argument.
 	/// - Parameter ooffset: the starting offset of the subregion in the string argument.
 	/// - Parameter len: the number of characters to compare.
-	func java_regionMatches(ignoreCase: Bool, toffset: Int, other: String, ooffset: Int, len: Int) -> Bool {
+	public func java_regionMatches(ignoreCase: Bool, toffset: Int, other: String, ooffset: Int, len: Int) -> Bool {
 		guard (toffset >= 0)                       else { return false }
 		guard (toffset+len <= self.count)          else { return false }
 		guard (toffset < self.count)               else { return false }
@@ -418,7 +418,7 @@ extension String {
 	/// - Parameter other: the string argument.
 	/// - Parameter ooffset: the starting offset of the subregion in the string argument.
 	/// - Parameter len: the number of characters to compare.
-	func java_regionMatches(toffset: Int, other: String, ooffset: Int, len: Int) -> Bool {
+	public func java_regionMatches(toffset: Int, other: String, ooffset: Int, len: Int) -> Bool {
 		return java_regionMatches(ignoreCase: false, toffset: toffset, other: other, ooffset: ooffset, len: len)
 	}
 
@@ -439,7 +439,7 @@ extension String {
 	/// - Returns: a string derived from this string by replacing every occurrence of oldChar with newChar.
 	/// - Parameter oldChar: the old character.
 	/// - Parameter newChar: the new character.
-	func java_replace(oldChar: Character, newChar: Character) -> String? {
+	public func java_replace(oldChar: Character, newChar: Character) -> String? {
 		return java_replace(target: String(oldChar), replacement: String(newChar))
 	}
 
@@ -448,7 +448,7 @@ extension String {
 	/// - Returns: The resulting string
 	/// - Parameter target: The sequence of char values to be replaced
 	/// - Parameter replacement: The replacement sequence of char values
-	func java_replace(target: String, replacement: String) -> String? {
+	public func java_replace(target: String, replacement: String) -> String? {
 		guard (target.count > 0) else { return nil }
 
 		if let i = self.java_indexOf(str: target) {
@@ -461,7 +461,7 @@ extension String {
 	///
 	/// - Returns: true if the character sequence represented by the argument is a prefix of the character sequence represented by this string; false otherwise. Note also that true will be returned if the argument is an empty string or is equal to this String object as determined by the equals(Object) method.
 	/// - Parameter prefix: the prefix.
-	func java_startsWith(_ prefix: String) -> Bool {
+	public func java_startsWith(_ prefix: String) -> Bool {
 		guard (prefix.count > 0) else { return false }
 		
 		return self.hasPrefix(prefix)
@@ -474,7 +474,7 @@ extension String {
 	///		this.substring(toffset).startsWith(prefix)
 	/// - Parameter prefix: the prefix.
 	/// - Parameter toffset: where to begin looking in this string.
-	func java_startsWith(prefix: String, toffset: Int) -> Bool {
+	public func java_startsWith(prefix: String, toffset: Int) -> Bool {
 		guard (prefix.count > 0)     else { return false }
 		guard (toffset > 0)          else { return false }
 		guard (toffset < self.count) else { return false }
@@ -493,7 +493,7 @@ extension String {
 	/// - Returns: the specified substring.
 	/// - Parameter beginIndex: the beginning index, inclusive.
 	/// - Throws: IndexOutOfBoundsError - if beginIndex is negative or larger than the length of this String object.
-	func java_substring(beginIndex: Int) throws -> String? {
+	public func java_substring(beginIndex: Int) throws -> String? {
 		guard (beginIndex >= 0)         else { throw StringError.IndexOutOfBoundsError }
 		guard (beginIndex < self.count) else { throw StringError.IndexOutOfBoundsError }
 		
@@ -510,7 +510,7 @@ extension String {
 	/// - Parameter beginIndex: the beginning index, inclusive.
 	/// - Parameter endIndex: the ending index, exclusive.
 	/// - Throws: IndexOutOfBoundsError - if the beginIndex is negative, or endIndex is larger than the length of this String object, or beginIndex is larger than endIndex.
-	func java_substring(beginIndex: Int, endIndex: Int) throws -> String? {
+	public func java_substring(beginIndex: Int, endIndex: Int) throws -> String? {
 		guard (beginIndex >= 0)         else { throw StringError.IndexOutOfBoundsError }
 		guard (beginIndex <= endIndex)  else { throw StringError.IndexOutOfBoundsError }
 		guard (endIndex <= self.count)  else { throw StringError.IndexOutOfBoundsError }
@@ -522,7 +522,7 @@ extension String {
 	/// Converts this string to a new character array.
 	///
 	/// - Returns: a newly allocated character array whose length is the length of this string and whose contents are initialized to contain the character sequence represented by this string.
-	func java_toCharArray() -> [Character] {
+	public func java_toCharArray() -> [Character] {
 		var wa: [Character] = []
 		
 		for c in self {
@@ -537,14 +537,14 @@ extension String {
 	///	**Note:** This method is locale sensitive, and may produce unexpected results if used for strings that are intended to be interpreted locale independently. Examples are programming language identifiers, protocol keys, and HTML tags. For instance, "TITLE".toLowerCase() in a Turkish locale returns "t\u0131tle", where '\u0131' is the LATIN SMALL LETTER DOTLESS I character. To obtain correct results for locale insensitive strings, use toLowerCase(Locale.ROOT).
 	///
 	/// - Returns: the String, converted to lowercase.
-	func java_toLowerCase() -> String {
+	public func java_toLowerCase() -> String {
 		return self.lowercased()
 	}
 
 	/// This object (which is already a string!) is itself returned.
 	///
 	/// - Returns: the string itself.
-	func java_toString() -> String {
+	public func java_toString() -> String {
 		return self
 	}
 
@@ -553,7 +553,7 @@ extension String {
 	/// **Note:** This method is locale sensitive, and may produce unexpected results if used for strings that are intended to be interpreted locale independently. Examples are programming language identifiers, protocol keys, and HTML tags. For instance, "title".toUpperCase() in a Turkish locale returns "T\u0130TLE", where '\u0130' is the LATIN CAPITAL LETTER I WITH DOT ABOVE character. To obtain correct results for locale insensitive strings, use toUpperCase(Locale.ROOT).
 	///
 	/// - Returns:the String, converted to uppercase.
-	func java_toUpperCase() -> String {
+	public func java_toUpperCase() -> String {
 		return self.uppercased()
 	}
 
@@ -568,7 +568,7 @@ extension String {
 	///	This method may be used to trim whitespace (as defined above) from the beginning and end of a string.
 	///
 	/// - Returns: A string whose value is this string, with any leading and trailing white space removed, or this string if it has no leading or trailing white space.
-	func java_trim() -> String {
+	public func java_trim() -> String {
 		return self.trimmingCharacters(in: CharacterSet(charactersIn: " "))
 	}
 
@@ -576,7 +576,7 @@ extension String {
 	///
 	/// - Returns: if the argument is true, a string equal to "true" is returned; otherwise, a string equal to "false" is returned.
 	/// - Parameter b: a boolean.
-	static func java_valueOf(_ b: Bool) -> String {
+	static public func java_valueOf(_ b: Bool) -> String {
 		return b.description
 	}
 
@@ -584,7 +584,7 @@ extension String {
 	///
 	/// - Returns: a string of length 1 containing as its single character the argument c.
 	/// - Parameter c: a char.
-	static func java_valueOf(_ c: Character) -> String {
+	static public func java_valueOf(_ c: Character) -> String {
 		return String(c)
 	}
 	
@@ -592,7 +592,7 @@ extension String {
 	///
 	/// - Returns: a String that contains the characters of the character array.
 	/// - Parameter data: the character array.
-	static func java_valueOf(_ data: [Character]) -> String {
+	static public func java_valueOf(_ data: [Character]) -> String {
 		return data.description
 	}
 
@@ -605,7 +605,7 @@ extension String {
 	/// - Parameter offset: initial offset of the subarray.
 	/// - Parameter count: length of the subarray.
 	/// - Throws: IndexOutOfBoundsError - if offset is negative, or count is negative, or offset+count is larger than data.length.
-	static func java_valueOf(data: [Character], offset: Int, count: Int) throws -> String? {
+	static public func java_valueOf(data: [Character], offset: Int, count: Int) throws -> String? {
 		guard (offset >= 0)                else { throw StringError.IndexOutOfBoundsError }
 		guard (offset < data.count)        else { throw StringError.IndexOutOfBoundsError }
 		guard (count >= 0)                 else { throw StringError.IndexOutOfBoundsError }
@@ -630,7 +630,7 @@ extension String {
 	///
 	/// - Returns: a string representation of the double argument.
 	/// - Parameter d: a double.
-	static func java_valueOf(_ d: Double) -> String {
+	static public func java_valueOf(_ d: Double) -> String {
 		return d.description
 	}
 
@@ -640,7 +640,7 @@ extension String {
 	///
 	/// - Returns: a string representation of the float argument.
 	/// - Parameter f: a float.
-	static func java_valueOf(_ f: Float) -> String {
+	static public func java_valueOf(_ f: Float) -> String {
 		return f.description
 	}
 
@@ -650,7 +650,7 @@ extension String {
 	///
 	/// - Returns: a string representation of the int argument.
 	/// - Parameter i: an int.
-	static func java_valueOf(_ i: Int) -> String {
+	static public func java_valueOf(_ i: Int) -> String {
 		return i.description
 	}
 
@@ -658,7 +658,7 @@ extension String {
 	///
 	/// - Returns: if the argument is null, then a string equal to "null"; otherwise, the value of obj.toString() is returned.
 	/// - Parameter obj: an Object.
-	static func java_valueOf(_ obj: Any) -> String? {
+	static public func java_valueOf(_ obj: Any) -> String? {
 		guard (obj is CustomStringConvertible) else { return nil }
 		
 		return (obj as! CustomStringConvertible).description

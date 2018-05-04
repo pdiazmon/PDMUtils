@@ -1,6 +1,6 @@
 //
 //  Integer.swift
-//  PDMUtils_iOS
+//  PDMUtils
 //
 //  Created by Pedro L. Diaz Montilla on 16/1/18.
 //  Copyright © 2018 Pedro L. Diaz Montilla. All rights reserved.
@@ -41,9 +41,9 @@
 
 import Foundation
 
-extension Int {
+public extension Int {
 	
-	enum IntError: Error {
+	public enum IntError: Error {
 		case NumberFormatError
         case IndexOutOfBoundsError
 		case InvalidRadix
@@ -57,7 +57,7 @@ extension Int {
     /// - Returns: the value 0 if x == y; a value less than 0 if x < y; and a value greater than 0 if x > y
     /// - Parameter x: the first int to compare
     /// - Parameter y: the second int to compare
-	static func java_compare​(x: Int, y: Int) -> Int {
+	static public func java_compare​(x: Int, y: Int) -> Int {
 		if (x == y) { return 0 }
 		else if (x < y) { return -1 }
 		else { return 1 }
@@ -67,7 +67,7 @@ extension Int {
     ///
     /// - Returns: the value 0 if this Integer is equal to the argument Integer; a value less than 0 if this Integer is numerically less than the argument Integer; and a value greater than 0 if this Integer is numerically greater than the argument Integer (signed comparison).the value 0 if x == y; a value less than 0 if x < y as unsigned values; and a value greater than 0 if x > y as unsigned values
     /// - Parameter anotherInteger: the Integer to be compared.
-	func java_compareTo​(_ anotherInteger: Int) -> Int {
+	public func java_compareTo​(_ anotherInteger: Int) -> Int {
 		if (self == anotherInteger) { return 0 }
 		else if (self < anotherInteger) { return -1 }
 		else { return 1 }
@@ -78,7 +78,7 @@ extension Int {
     /// - Returns: the value 0 if x == y; a value less than 0 if x < y as unsigned values; and a value greater than 0 if x > y as unsigned values
     /// - Parameter x: the first int to compare
     /// - Parameter y: the second int to compare
-	static func java_compareUnsigned​(x: Int, y: Int) -> Int {
+	public static func java_compareUnsigned​(x: Int, y: Int) -> Int {
 		let ux: Int = x * (x<0 ? -1 : 1)
 		let uy: Int = y * (y<0 ? -1 : 1)
 		
@@ -104,7 +104,7 @@ extension Int {
     /// - Returns: an Integer object holding the int value represented by nm
     /// - Parameter nm: the String to decode.
     /// - Throws: IntError.NumberFormatError - if the String does not contain a parsable integer.
-	static func java_decode​(_ nm: String) throws -> Int {
+	static public func java_decode​(_ nm: String) throws -> Int {
 		var sign: Bool = true // false: minus; true: plus
 		var wnm: String = nm
 		
@@ -154,7 +154,7 @@ extension Int {
     /// - Parameter dividend: the value to be divided
     /// - Parameter divisor: the value doing the dividing
     /// - Throws: IntError.DividedByZero - if divisor is zero
-	static func java_divideUnsigned​(dividend: Int, divisor: Int) throws -> UInt {
+	static public func java_divideUnsigned​(dividend: Int, divisor: Int) throws -> UInt {
 		guard (divisor != 0) else { throw IntError.DividedByZero }
 		
 		var div: Int
@@ -167,13 +167,13 @@ extension Int {
     /// Returns the value of this Integer as a double after a widening primitive conversion.
     ///
     /// - Returns: the numeric value represented by this object after conversion to type double.
-	func java_doubleValue​() -> Double { return Double(self) }
+	public func java_doubleValue​() -> Double { return Double(self) }
 	
     /// Compares this object to the specified object. The result is true if and only if the argument is not null and is an Integer object that contains the same int value as this object.
     ///
     /// - Returns: true if the objects are the same; false otherwise.
     /// - Parameter obj: the object to compare with.
-	func java_equals​(_ obj: Any) -> Bool {
+	public func java_equals​(_ obj: Any) -> Bool {
 		if (obj is Int) {
 			return ((obj as! Int) == self)
 		}
@@ -195,14 +195,14 @@ extension Int {
     /// Returns the value of this Integer as a float after a widening primitive conversion.
     ///
     /// - Returns: the numeric value represented by this object after conversion to type float.
-	func java_floatValue​() -> Float {
+	public func java_floatValue​() -> Float {
 		return Float(self)
 	}
 	
     /// Returns a hash code for this Integer.
     ///
     /// - Returns: a hash code value for this object, equal to the primitive int value represented by this Integer object.
-	func java_hashCode​() -> Int {
+	public func java_hashCode​() -> Int {
 		return self.hashValue
 	}
 	
@@ -210,7 +210,7 @@ extension Int {
     ///
     /// - Returns: a hash code value for a int value.
     /// - Parameter value - the value to hash
-	static func java_hashCode​(_ value: Int) -> Int {
+	public static func java_hashCode​(_ value: Int) -> Int {
 		return value.java_hashCode​()
 	}
 	
@@ -219,7 +219,7 @@ extension Int {
     /// - Returns: the greater of a and b
     /// - Parameter a: the first operand
     /// - Parameter b: the second operand
-	static func java_max​(_ a: Int, _ b: Int) -> Int {
+	static public func java_max​(_ a: Int, _ b: Int) -> Int {
 		return Swift.max(a, b)
 	}
 	
@@ -228,7 +228,7 @@ extension Int {
     /// - Returns: the smaller of a and b
     /// - Parameter a: the first operand
     /// - Parameter b: the second operand
-	static func java_min​(_ a: Int, _ b: Int) -> Int {
+	static public func java_min​(_ a: Int, _ b: Int) -> Int {
 		return Swift.min(a, b)
 	}
 	
@@ -242,7 +242,7 @@ extension Int {
     /// - Parameter endIndex: The ending index, exclusive.
     /// - Parameter radix: The radix to be used while parsing s.
     /// - Throws: NumberFormatError - if the CharSequence does not contain a parsable int in the specified radix
-	static func java_parseInt​(s: String, beginIndex: Int, endIndex: Int, radix: Int) throws -> Int? {
+	static public func java_parseInt​(s: String, beginIndex: Int, endIndex: Int, radix: Int) throws -> Int? {
 		guard (s.count > 0)            else { return nil }
 		guard (beginIndex >= 0)        else { return nil }
 		guard (beginIndex < s.count)   else { return nil }
@@ -268,7 +268,7 @@ extension Int {
     /// - Returns: The integer value represented by the argument in decimal.
     /// - Parameter s: A String containing the int representation to be parsed
     /// - Throws: NumberFormatError - if the String does not contain a parsable int.
-	static func java_parseInt​(_ s: String) throws -> Int {
+	static public func java_parseInt​(_ s: String) throws -> Int {
         guard (s.count > 0) else { throw IntError.NumberFormatError }
         
         if let i = Int(s, radix: 10) { return i }
@@ -302,7 +302,7 @@ extension Int {
     /// - Parameter s: The String containing the integer representation to be parsed
     /// - Parameter radix: The radix to be used while parsing s.
     /// - Throws: NumberFormatError - if the String does not contain a parsable int.
-	static func java_parseInt​(s: String, radix: Int) throws -> Int {
+	static public func java_parseInt​(s: String, radix: Int) throws -> Int {
 		guard (s.count > 0) else { throw IntError.NumberFormatError }
         
         if let i = Int(s, radix: radix) { return i }
@@ -320,7 +320,7 @@ extension Int {
     /// - Parameter radix: the radix to be used while parsing s.
     /// - Throws: IndexOutOfBoundsError - if beginIndex is negative, or if beginIndex is greater than endIndex or if endIndex is greater than s.length().
     /// NumberFormatEror - if the String does not contain a parsable unsigned int in the specified radix.
-	static func java_parseUnsignedInt​(s: String, beginIndex: Int, endIndex: Int, radix: Int) throws -> UInt? {
+	static public func java_parseUnsignedInt​(s: String, beginIndex: Int, endIndex: Int, radix: Int) throws -> UInt? {
 		guard (s.count > 0)            else { return nil }
 		guard (beginIndex >= 0)        else { throw IntError.IndexOutOfBoundsError }
 		guard (beginIndex < s.count)   else { return nil }
@@ -341,7 +341,7 @@ extension Int {
     /// - Returns: the unsigned integer value represented by the argument in decimal.
     /// - Parameter s: a String containing the unsigned int representation to be parsed
     /// - Throws: NumberFormatEror - if the String does not contain a parsable unsigned int in the specified radix.
-	static func java_parseUnsignedInt​(_ s: String) throws -> UInt {
+	static public func java_parseUnsignedInt​(_ s: String) throws -> UInt {
 		return try UInt(java_parseInt​(s))
 	}
 	
@@ -356,7 +356,7 @@ extension Int {
     /// - Parameter s: the String containing the unsigned int representation to be parsed
     /// - Parameter radix: the radix to be used while parsing s.
     /// - Throws: NumberFormatEror - if the String does not contain a parsable int.
-	static func java_parseUnsignedInt​(s: String, radix: Int) throws -> UInt {
+	static public func java_parseUnsignedInt​(s: String, radix: Int) throws -> UInt {
         return try UInt(java_parseInt​(s: s, radix: radix))
 	}
 	
@@ -366,7 +366,7 @@ extension Int {
     /// - Parameter dividend: the value to be divided
     /// - Parameter divisor: the value doing the dividing
     /// - Throws: DividedByZero - if divisor is zero
-	static func java_remainderUnsigned​(dividend: Int, divisor: Int) throws -> UInt {
+	static public func java_remainderUnsigned​(dividend: Int, divisor: Int) throws -> UInt {
 		guard (divisor != 0) else { throw IntError.DividedByZero }
 		
 		let wDividend = UInt(dividend * ((dividend > 0) ? 1 : -1))
@@ -380,14 +380,14 @@ extension Int {
     /// - Returns: the sum of a and b
     /// - Parameter a: the first operand
     /// - Parameter b: the second operand
-	static func java_sum​(_ a: Int, _ b: Int) -> Int {
+	static public func java_sum​(_ a: Int, _ b: Int) -> Int {
 		return a + b
 	}
 	
     /// Returns a String object representing this Integer's value. The value is converted to signed decimal representation and returned as a string, exactly as if the integer value were given as an argument to the toString(int) method.
     ///
     /// - Returns: a string representation of the value of this object in base 10.
-    func java_toString() -> String {
+    public func java_toString() -> String {
 		return String(self)
 	}
 	
@@ -395,7 +395,7 @@ extension Int {
     ///
     /// - Returns: a string representation of the value of this object in base 10.
     /// Parameter i: an integer to be converted.
-	static func java_toString​(_ i: Int) -> String {
+	static public func java_toString​(_ i: Int) -> String {
 		return String(i)
 	}
 	
@@ -413,7 +413,7 @@ extension Int {
     /// - Returns: a string representation of the argument in the specified radix.
     /// - Parameter i: an integer to be converted to a string.
     /// - Parameter radix: the radix to use in the string representation.
-	static func java_toString​(i: Int, radix: Int) -> String {
+	static public func java_toString​(i: Int, radix: Int) -> String {
 		return String(UInt(i), radix: radix)
 	}
 	
@@ -425,7 +425,7 @@ extension Int {
     ///
     /// - Returns: an Integer object holding the value represented by the string argument.
     /// - Parameter s: the string to be parsed.
-	static func java_valueOf​(_ s: String) throws -> Int {
+	static public func java_valueOf​(_ s: String) throws -> Int {
         guard (s.count > 0) else { throw IntError.NumberFormatError }
         
         if let i = Int(s, radix: 10) { return i }
@@ -442,7 +442,7 @@ extension Int {
     /// - Parameter s: the string to be parsed.
     /// - Parameter radix: the radix to be used in interpreting s
     /// - Throws: NumberFormatEror - if the String does not contain a parsable number.
-	static func java_valueOf​(s: String, radix: Int) throws -> Int {
+	static public func java_valueOf​(s: String, radix: Int) throws -> Int {
 		return try Int.java_parseInt​(s: s, radix: radix)
 	}
 

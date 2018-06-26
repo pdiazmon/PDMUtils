@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "PDMUtils"
-  s.version      = "1.0.1"
+  s.version      = "1.2.0"
   s.summary      = "My own Utils library"
   s.description  = "My own Utils library."
   s.homepage     = "https://github.com/pdiazmon/PDMUtils"

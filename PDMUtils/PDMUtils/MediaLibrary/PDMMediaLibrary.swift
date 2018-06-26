@@ -120,6 +120,66 @@ public class PDMMediaLibrary {
         // Sort the list by album title and return it
         return list.sorted { $0.albumTitle! < $1.albumTitle! }
     }
+
+    /// Returns the playlist play time
+    /// - Parameters:
+    ///   - byPlaylist: Playlist name
+    /// - Returns: Playlist playtime in hours, minutes and seconds
+    class public func getPlayTime(byPlaylist: String) -> (hours: Int, minutes: Int, senconds: Int) {
+        var seconds: Int = 0
+
+        for song in getSongsList(byPlaylist: byPlaylist) {
+            seconds += Int(song.playbackDuration)
+        }
+        
+        return playTimeFrom(seconds: seconds)
+    }
+    
+    /// Converts playtime in seconds to hours, minutes and seconds
+    /// - Parameters:
+    ///   - seconds: Playlist in seconds
+    /// - Returns: Playtime in hours, minutes and seconds
+    class private func playTimeFrom(seconds: Int) -> (hours: Int, minutes: Int, senconds: Int) {
+        let _hour = Int(seconds / 3600)
+        let rem = seconds % 3600
+        let _min = Int(rem / 60)
+        let _sec = rem % 60
+        
+        return (_hour, _min, _sec)
+    }
+  
+    /// Returns the artist play time
+    /// - Parameters:
+    ///   - byArtist: Artist name
+    /// - Returns: Artist playtime in hours, minutes and seconds
+    class public func getPlayTime(byArtist: String) -> (hours: Int, minutes: Int, senconds: Int) {
+        
+        var seconds: Int = 0
+        
+        let list = getAlbumsList(byArtist: byArtist)
+        
+        for album in list {
+            let (hour, min, sec) = getPlayTime(byArtist: album.albumArtist!, byAlbum: album.albumTitle!)
+            seconds = seconds + hour * 3600 + min * 60 + sec
+        }
+        
+        return playTimeFrom(seconds: seconds)
+    }
+    
+    /// Returns the album play time
+    /// - Parameters:
+    ///   - byArtist: Artist name
+    ///   - byAlbum: Album title
+    /// - Returns: Album playtime in hours, minutes and seconds
+    class public func getPlayTime(byArtist: String, byAlbum: String) -> (hours: Int, minutes: Int, senconds: Int) {
+        var seconds: Int = 0
+        
+        for song in getSongsList(byArtist: byArtist, byAlbum: byAlbum) {
+            seconds += Int(song.playbackDuration)
+        }
+        
+        return playTimeFrom(seconds: seconds)
+    }
     
     /// Returns all the albums in the Media Library
     /// - Returns: A MPMediaItem array with all the albums in the Media Library. Every MPMediaItem in the array is the album representative item.
@@ -134,7 +194,7 @@ public class PDMMediaLibrary {
     ///   - byArtist: Artist name
     ///   - byAlbum: Album title
     /// - Returns: A MPMediaItem array with all the songs
-    class public func getSongsList(byArtist: String, byAlbum: String = "") -> [MPMediaItem]? {
+    class public func getSongsList(byArtist: String, byAlbum: String = "") -> [MPMediaItem] {
         
         var query: MPMediaQuery?
         
@@ -173,14 +233,19 @@ public class PDMMediaLibrary {
         }
         
         // Sort the collection by song title and return it
-        return query?.items?.sorted { $0.title! < $1.title! }
+        if let resultQ = query, let resultI = resultQ.items {
+            return resultI.sorted { $0.title! < $1.title! }
+        }
+        else {
+            return []
+        }
     }
     
     /// Returns all the songs in a given playlist
     /// - Parameters:
     ///   - byPlaylist: Playlist name
     /// - Returns: A MPMediaItem array with all the songs in the given playlist
-    class public func getSongsList(byPlaylist: String) -> [MPMediaItem]? {
+    class public func getSongsList(byPlaylist: String) -> [MPMediaItem] {
         
         var query: MPMediaQuery?
         
@@ -194,12 +259,17 @@ public class PDMMediaLibrary {
         }
         
         // Sort the collection by song title and return it
-        return query?.items?.sorted { $0.title! < $1.title! }
+        if let resultQ = query, let resultI = resultQ.items {
+            return resultI.sorted { $0.title! < $1.title! }
+        }
+        else {
+            return []
+        }
     }
     
     /// Returns all the songs in the Media Library
     /// - Returns: A MPMediaItem array with all the songs
-    class public func getSongsList() -> [MPMediaItem]? {
+    class public func getSongsList() -> [MPMediaItem] {
         
         // Perform the same query with an empty artist name and album title to get all the songs in the Media Library
         return getSongsList(byArtist: "", byAlbum: "")

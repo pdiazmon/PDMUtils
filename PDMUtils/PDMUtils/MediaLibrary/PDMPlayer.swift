@@ -17,7 +17,7 @@ enum PlayStatus {
 public class PDMPlayer {
     private var player:          MPMusicPlayerController
     private var playStatus:      PlayStatus
-    private var songsCollection: MPMediaItemCollection?
+    private var songsCollection: MPMediaItemCollection = MPMediaItemCollection(items: [])
     private var shuffle:         Bool = false
     
     public init() {
@@ -64,7 +64,14 @@ public class PDMPlayer {
     ///   - collection: A MPMediaItemCollection containing all the songs to be played
     public func setCollection(_ collection: MPMediaItemCollection) {
         self.songsCollection = collection
-        self.player.setQueue(with: self.songsCollection!)
+        self.player.setQueue(with: self.songsCollection)
+    }
+    
+    /// Return the current player queue collection
+    ///
+    /// - Returns: Current player queue collection
+    public func getCollection() -> MPMediaItemCollection {
+        return self.songsCollection
     }
     
     /// Sets the current song to be played to a given one
@@ -78,7 +85,7 @@ public class PDMPlayer {
     /// Returns the album cover for the currently played song
     /// - Returns: The cover image artwork
     public func nowPlayingArtwork() -> MPMediaItemArtwork? {
-        guard (songsCollection != nil)       else { return nil }
+        guard (songsCollection.count > 0)    else { return nil }
         guard (player.nowPlayingItem != nil) else { return nil }
         
         return player.nowPlayingItem?.artwork
@@ -87,7 +94,7 @@ public class PDMPlayer {
     /// Returns the song title for the currently played song
     /// - Returns: The song title
     public func nowPlayingTitle() -> String? {
-        guard (songsCollection != nil)       else { return nil }
+        guard (songsCollection.count > 0)    else { return nil }
         guard (player.nowPlayingItem != nil) else { return nil }
 
         return player.nowPlayingItem?.title
@@ -96,7 +103,7 @@ public class PDMPlayer {
     /// Returns the album title for the currently played song
     /// - Returns: The album title
     public func nowPlayingAlbumTitle() -> String? {
-        guard (songsCollection != nil)       else { return nil }
+        guard (songsCollection.count > 0)    else { return nil }
         guard (player.nowPlayingItem != nil) else { return nil }
         
         return player.nowPlayingItem?.albumTitle
@@ -105,7 +112,7 @@ public class PDMPlayer {
     /// Returns the album artist name for the currently played song
     /// - Returns: The album artist name
     public func nowPlayingArtist() -> String? {
-        guard (songsCollection != nil)       else { return nil }
+        guard (songsCollection.count > 0)    else { return nil }
         guard (player.nowPlayingItem != nil) else { return nil }
         
         return player.nowPlayingItem?.albumArtist
@@ -136,13 +143,13 @@ public class PDMPlayer {
     /// Tells if the currently played song is the first one in the queue
     /// - Returns: true if the current played song is the first. false if not.
     public func isPlayingFirst() -> Bool {
-        return player.nowPlayingItem == self.songsCollection?.items.first
+        return player.nowPlayingItem == self.songsCollection.items.first
     }
 
     /// Tells if the currently played song is the last one in the queue
     /// - Returns: true if the current played song is the last. false if not.
     public func isPlayingLast() -> Bool {
-        return player.nowPlayingItem == self.songsCollection?.items.last
+        return player.nowPlayingItem == self.songsCollection.items.last
     }
     
     /// Tells if the player is currently playing a song

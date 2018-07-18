@@ -252,7 +252,10 @@ public class PDMMediaLibrary {
         perform() {
             // Set the filter for the playlist name
             let playlistFilter = MPMediaPropertyPredicate(value: byPlaylist, forProperty: MPMediaPlaylistPropertyName)
-            let myFilterSet: Set<MPMediaPropertyPredicate> = [playlistFilter]
+            let songFilter = MPMediaPropertyPredicate(value: MPMediaType.music.rawValue,
+                                                      forProperty: MPMediaItemPropertyMediaType,
+                                                      comparisonType: MPMediaPredicateComparison.equalTo)
+            let myFilterSet: Set<MPMediaPropertyPredicate> = [playlistFilter, songFilter]
             
             // Perform the query
             query = MPMediaQuery(filterPredicates: myFilterSet)
